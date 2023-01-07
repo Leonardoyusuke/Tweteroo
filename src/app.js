@@ -1,14 +1,38 @@
-import express, { application } from 'express'
-import cors from 'cors'
-
-app.use(cors())
+import express from 'express'
 
 const server = express()
 
+server.use(express.json)
 const PORT = 5003 
-server.get("/hello", (request, response) => {
-  response.send("Meu primeiro servidor, yay!")
+
+const usuarios = [{
+	username: 'bobesponja', 
+	avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info" 
+}]
+const tweet = [{
+	username: "bobesponja",
+  tweet: "eu amo o hub"
+}]
+
+
+
+server.post("/sign-up", (request, response) => {
+  const novoUsuario = request.body
+
+  usuarios.push(novoUsuario)
+
+  response.send(novoUsuario)
+  console.log("ok")
 })
+
+server.post("/tweets",(request, response)=>{
+  const NovoTweet = request.body
+
+  tweet.push(NovoTweet)
+  response.send(NovoTweet)
+  console.log(tweet)
+
+} )
 
 server.listen(PORT, () => {
   console.log('Xablauuuuu')
