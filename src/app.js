@@ -1,20 +1,32 @@
 import express from 'express'
+import cors from "cors"
 
 const server = express()
-
 server.use(express.json)
-const PORT = 5003 
+server.use(cors())
+
+const PORT = 4000
+
+
 
 const usuarios = [{
-	username: 'bobesponja', 
-	avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info" 
+  username: 'bobesponja',
+  avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
 }]
-const tweet = [{
-	username: "bobesponja",
-  tweet: "eu amo o hub"
-}]
+const tweet = [
+  {
+    username: "bobesponja",
+    tweet: "eu amo o hub",
+  },
+  {
+    username: "bobesponja",
+    tweet: "teste2",
+  },
+]
 
-
+server.get('/tweets', (request, response) => {
+  response.send(tweet)
+})
 
 server.post("/sign-up", (request, response) => {
   const novoUsuario = request.body
@@ -25,15 +37,19 @@ server.post("/sign-up", (request, response) => {
   console.log("ok")
 })
 
-server.post("/tweets",(request, response)=>{
+server.post("/tweets", (request, response) => {
   const NovoTweet = request.body
+  if (NovoTweet.username.includes(usuarios.username)) {
+    tweet.push(NovoTweet)
+    response.send(NovoTweet)
+    console.log(tweet)
+  }
+  else {
+    return "UNAUTHORIZED"
+  }
+})
 
-  tweet.push(NovoTweet)
-  response.send(NovoTweet)
-  console.log(tweet)
-
-} )
 
 server.listen(PORT, () => {
-  console.log('Xablauuuuu')
+  console.log(`server on port ${PORT}`)
 })
