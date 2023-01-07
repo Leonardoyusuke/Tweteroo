@@ -2,12 +2,12 @@ import express from 'express'
 import cors from "cors"
 
 const server = express()
-server.use(express.json)
+server.use(express.json())
 server.use(cors())
 
 const PORT = 4000
 
-
+let avatar 
 
 const usuarios = [{
   username: 'bobesponja',
@@ -25,7 +25,19 @@ const tweet = [
 ]
 
 server.get('/tweets', (request, response) => {
-  response.send(tweet)
+
+  
+  tweet.forEach((t) => { 
+    const user = usuarios.find((u)=> u.username===t.username) 
+    t.avatar= (user.avatar)
+  });
+
+
+  const tweetReverse = [...tweet] 
+  const ultimosTweets = tweetReverse.reverse().slice(0,10)
+
+
+  response.send(ultimosTweets)
 })
 
 server.post("/sign-up", (request, response) => {
@@ -38,15 +50,15 @@ server.post("/sign-up", (request, response) => {
 })
 
 server.post("/tweets", (request, response) => {
-  const NovoTweet = request.body
-  if (NovoTweet.username.includes(usuarios.username)) {
+    const username = request.body.username
+    const NovoTweet = request.body
+    if(usuarios.find(nome => nome.username === username)){
     tweet.push(NovoTweet)
     response.send(NovoTweet)
-    console.log(tweet)
-  }
-  else {
-    return "UNAUTHORIZED"
-  }
+    console.log(tweet)}
+    else{
+    response.send("UNAUTHORIZED");
+  }  
 })
 
 
