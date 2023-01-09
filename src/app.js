@@ -6,23 +6,8 @@ server.use(express.json())
 server.use(cors())
 
 const PORT = 4000
-
-let avatar 
-
-const usuarios = [{
-  username: 'bobesponja',
-  avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
-}]
-const tweet = [
-  {
-    username: "bobesponja",
-    tweet: "eu amo o hub",
-  },
-  {
-    username: "bobesponja",
-    tweet: "teste2",
-  },
-]
+const usuarios = []
+const tweet = []
 
 server.get('/tweets', (request, response) => {
 
